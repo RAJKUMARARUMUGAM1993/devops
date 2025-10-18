@@ -2,17 +2,18 @@ pipeline {
     agent any
 
     environment {
-        DEV_REGISTRY = "rajkumaram/dev"
-        PROD_REGISTRY = "rajkumaram/prod"
-        IMAGE_NAME = "react-static-app"
-        IMAGE_TAG = "latest"
+        DEV_REGISTRY  = "rajkumaram/react-app-dev"   // Docker Hub dev repo
+        PROD_REGISTRY = "rajkumaram/react-app-prod"  // Docker Hub prod repo
+        IMAGE_NAME    = "devops-react-app"           // Docker image name
+        IMAGE_TAG     = "latest"                     // Image tag
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/your-org/devops-build.git',
-                    branch: "${BRANCH_NAME}"
+                git url: 'https://github.com/RAJKUMARARUMUGAM1993/devops.git',
+                    branch: "${BRANCH_NAME}", 
+                    credentialsId: 'github-creds'
             }
         }
 
@@ -33,14 +34,14 @@ pipeline {
                     )]) {
                         sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
 
-                        if (env.BRANCH_NAME == 'dev') {
-                            sh "docker tag react-static-app:latest $DEV_REGISTRY:$IMAGE_TAG"
-                            sh "docker push $DEV_REGISTRY:$IMAGE_TAG"
+                        if (env.BRANCH_NAME == 'main') {
+                            sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${DEV_REGISTRY}:${IMAGE_TAG}"
+                            sh "docker push ${DEV_REGISTRY}:${IMAGE_TAG}"
                         } else if (env.BRANCH_NAME == 'main') {
-                            sh "docker tag react-static-app:latest $PROD_REGISTRY:$IMAGE_TAG"
-                            sh "docker push $PROD_REGISTRY:$IMAGE_TAG"
+                            sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${PROD_REGISTRY}:${IMAGE_TAG}"
+                            sh "docker push ${PROD_REGISTRY}:${IMAGE_TAG}"
                         } else {
-                            echo "Branch is neither dev nor master. Skipping Docker push."
+                            echo "Branch is neither dev nor main. Skipping Docker push."
                         }
                     }
                 }
