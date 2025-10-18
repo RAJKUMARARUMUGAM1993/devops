@@ -36,7 +36,7 @@ pipeline {
                         if (env.BRANCH_NAME == 'dev') {
                             sh "docker tag react-static-app:latest $DEV_REGISTRY:$IMAGE_TAG"
                             sh "docker push $DEV_REGISTRY:$IMAGE_TAG"
-                        } else if (env.BRANCH_NAME == 'master') {
+                        } else if (env.BRANCH_NAME == 'main') {
                             sh "docker tag react-static-app:latest $PROD_REGISTRY:$IMAGE_TAG"
                             sh "docker push $PROD_REGISTRY:$IMAGE_TAG"
                         } else {
