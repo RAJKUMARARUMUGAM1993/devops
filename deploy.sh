@@ -25,12 +25,31 @@
 # echo "Deployment completed for branch $BRANCH!"
 
 #!/bin/bash
-echo "Deploying container..."
+set -e  # Exit if any command fails
+CONTAINER_NAME="devops-react-app"
+IMAGE_NAME="devops-react-app:latest"
 
-# Stop and remove old container if exists
-docker rm -f devops-react-app || true
+echo "🚀 Starting deployment..."
 
-# Run the new container with correct image
-docker run -d --name devops-react-app -p 80:80 devops-react-app:latest
+# Stop and remove old container safely
+if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
+  echo "🛑 Removing existing container..."
+  docker stop $CONTAINER_NAME || true
+  sleep 3
+  docker rm -f $CONTAINER_NAME || true
+fi
 
-echo "✅ Deployment complete."
+# Remove any old dangling images (optional cleanup)
+echo "🧹 Cleaning up old images..."
+docker image prune -f || true
+
+# Run the new container
+echo "🚢 Starting new container..."
+docker run -d --name $CONTAINER_NAME -p 80:80 $IMAGE_NAME
+
+# Show running containers
+echo "✅ Current running containers:"
+docker ps
+
+echo "✅ Deployment completed successfully!"
+
