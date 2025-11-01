@@ -4,7 +4,7 @@ set -e
 # Usage: ./build.sh <branch_name>
 BRANCH=${1:-dev}   # default to dev if no argument
 
-IMAGE_NAME="react-static-app"
+IMAGE_NAME="devops-react-app:latest"
 DEV_IMAGE="rajkumaram/dev:$BRANCH"
 PROD_IMAGE="rajkumaram/prod:$BRANCH"
 

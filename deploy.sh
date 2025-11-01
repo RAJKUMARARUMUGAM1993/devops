@@ -32,6 +32,6 @@ docker stop react-static-app || true
 docker rm react-static-app || true
 
 # Run the new one
-docker run -d --name react-static-app -p 80:80 rajkumaram/react-static-app:latest
+docker run -d --name devops-react-app -p 80:80 rajkumaram/devops-react-app:latest
 
 echo "✅ Deployment complete."

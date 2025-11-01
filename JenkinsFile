@@ -5,7 +5,7 @@ pipeline {
          BRANCH_NAME  = 'dev'
         DEV_REGISTRY  = "rajkumaram/react-app-dev"   // Docker Hub dev repo
         PROD_REGISTRY = "rajkumaram/react-app-prod"  // Docker Hub prod repo
-        IMAGE_NAME    = "devops-react-app"           // Docker image name
+        IMAGE_NAME    = "devops-react-app:latest"           // Docker image name
         IMAGE_TAG     = "latest"                     // Image tag
     }
 
