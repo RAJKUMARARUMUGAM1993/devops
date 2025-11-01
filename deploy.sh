@@ -27,11 +27,10 @@
 #!/bin/bash
 echo "Deploying container..."
 
-# Stop old container if running
-docker stop react-static-app || true
-docker rm react-static-app || true
+# Stop and remove old container if exists
+docker rm -f devops-react-app || true
 
-# Run the new one
-docker run -d --name devops-react-app -p 80:80 rajkumaram/devops-react-app:latest
+# Run the new container with correct image
+docker run -d --name devops-react-app -p 80:80 devops-react-app:latest
 
 echo "✅ Deployment complete."
